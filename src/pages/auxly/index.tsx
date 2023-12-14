@@ -48,8 +48,9 @@ function Auxly() {
   const isAuthenticated = session.status === "authenticated";
   return (
     <div>
-      <div className={classes.hero}>
-        <Paper className={classes.informationBox} shadow="md">
+      <div className={classes.hero}></div>
+      <Grid gutter={32} className={classes.content}>
+        <Paper className={classes.informationBox} shadow="md" withBorder>
           <Text fz="xl" fw="bolder">
             Auxly Cannabis Group Inc.
           </Text>
@@ -71,8 +72,6 @@ function Auxly() {
             </Link>
           )}
         </Paper>
-      </div>
-      <Grid gutter={32} maw={1200} mx="auto">
         <Grid.Col span={8}>
           <HeaderText>
             Read this notice carefully as it may affect your rights
@@ -145,7 +144,7 @@ function Auxly() {
           </ParagraphText>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Paper p="md" radius="md">
+          <Paper p="md" radius="md" withBorder shadow="md">
             <Text fw="bolder">Documents</Text>
             {documentLinks.map((doc) => {
               return (

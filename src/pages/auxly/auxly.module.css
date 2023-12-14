@@ -3,19 +3,25 @@
   background-size: cover;
   height: 50vh;
   background-position: 50% 50%;
-  margin-bottom: 124px;
   position: relative;
   border-radius: 8px;
 }
 
 .informationBox {
   position: absolute;
-  bottom: 0;
-  transform: translateY(50%);
-  left: 128px;
+  top: 0;
+  transform: translate(-24px, -100%);
+  left: 0;
   padding: 24px;
   border-radius: 12px;
   background-color: white;
+}
+
+.content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 96px;
 }
 
 .loginButton {

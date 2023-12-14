@@ -46,11 +46,6 @@ const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      // also add role here
-      session.user.id = token.id;
-      return session;
-    },
     async jwt({ account, user, token }) {
       if (account) {
         // also add role here
@@ -58,6 +53,11 @@ const authOptions: AuthOptions = {
         token.id = user.id;
       }
       return token;
+    },
+    async session({ session, token }) {
+      // also add role here
+      session.user.id = token.id;
+      return session;
     },
   },
   pages: {

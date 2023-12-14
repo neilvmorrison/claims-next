@@ -8,8 +8,9 @@ function AuxlyClaimForm() {
   const form = useForm({});
   return (
     <div>
-      <div className={classes.hero}>
-        <Paper className={classes.informationBox} shadow="md">
+      <div className={classes.hero}></div>
+      <div className={classes.content}>
+        <Paper className={classes.informationBox} shadow="md" withBorder>
           <Text fz="xl" fw="bolder">
             Auxly Cannabis Group Inc.
           </Text>
@@ -21,8 +22,6 @@ function AuxlyClaimForm() {
             CV-19-00617136-0000CP
           </Text>
         </Paper>
-      </div>
-      <div>
         <Text size="xl">Submit a claim</Text>
         <form
           onSubmit={form.onSubmit((val) => alert(JSON.stringify(val)))}
@@ -42,6 +41,9 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   }
+  return {
+    props: {},
+  };
 }
 
 export default AuxlyClaimForm;

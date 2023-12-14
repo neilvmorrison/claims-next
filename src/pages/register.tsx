@@ -2,12 +2,11 @@ import { useForm } from "@mantine/form";
 import { email_regex } from "../../utils/regex";
 import { Button, Group, Paper, TextInput, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { NextPageContext } from "next";
 
 function RegistrationPage() {
-  const router = useRouter();
   const form = useForm({
     initialValues: {
       email: "",
@@ -52,21 +51,10 @@ function RegistrationPage() {
       color: "green",
       message: "Your account was successfully created",
     });
-    try {
-      await signIn("credentials", {
-        email: values.email,
-        password: values.password,
-      });
-      router.push("/");
-    } catch (err) {
-      return notifications.show({
-        id: "login-fail",
-        title: "Authentication error",
-        color: "red",
-        message:
-          "There was an error authenticating your account, please try again later",
-      });
-    }
+    await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (
@@ -106,6 +94,21 @@ function RegistrationPage() {
       </form>
     </Paper>
   );
+}
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }
 
 export default RegistrationPage;

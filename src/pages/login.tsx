@@ -2,10 +2,11 @@ import { useForm } from "@mantine/form";
 import { email_regex } from "../../utils/regex";
 import { Button, Group, Paper, Text, TextInput } from "@mantine/core";
 import { APP_NAME } from "../../constants";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { NextPageContext } from "next";
 
 function LoginPage() {
   const router = useRouter();
@@ -84,6 +85,21 @@ function LoginPage() {
       </form>
     </Paper>
   );
+}
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }
 
 export default LoginPage;
