@@ -76,8 +76,7 @@ function LoginPage() {
           {...form.getInputProps("password")}
         />
         <Text>
-          Don't have an account with us?{" "}
-          <Link href="/register">Register Here</Link>
+          Need an account? <Link href="/register">Register Here</Link>
         </Text>
         <Group justify="flex-end" mt="md">
           <Button type="submit">Login</Button>
