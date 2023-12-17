@@ -14,6 +14,8 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dropzone/styles.css";
+import "@mantine/dates/styles.css";
 import { SessionProvider, useSession } from "next-auth/react";
 import { APP_NAME } from "../../constants";
 import { Notifications } from "@mantine/notifications";

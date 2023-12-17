@@ -1,10 +1,10 @@
 import { getUserProfileByUserId } from "@/lib/user";
 import { Avatar, Box, Button, Center, Group, Paper, Text } from "@mantine/core";
-import { Profile } from "@prisma/client";
+import { Profile, User } from "@prisma/client";
 import { NextPageContext } from "next";
 import { getSession, signOut } from "next-auth/react";
 
-function Profile({ user }: { user: Profile }) {
+function Profile({ user }: { user: Profile & User }) {
   return (
     <Box maw={1200} mx="auto" mt="xl">
       <Paper p="md" radius="md" withBorder shadow="md" maw={320}>
@@ -14,7 +14,7 @@ function Profile({ user }: { user: Profile }) {
         <Text fz="lg" fw="bold">
           {user?.givenName} {user?.familyName}
         </Text>
-        <Text c="gray.8">email@gmail.com</Text>
+        <Text c="gray.8">{user.email}</Text>
         <Button color="red" onClick={() => signOut()} fullWidth mt="xl">
           Logout
         </Button>
@@ -36,7 +36,10 @@ export async function getServerSideProps(context: NextPageContext) {
   const user = await getUserProfileByUserId(session?.user.id);
   return {
     props: {
-      user,
+      user: {
+        ...user,
+        email: session.user.email,
+      },
     },
   };
 }

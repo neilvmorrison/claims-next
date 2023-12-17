@@ -38,3 +38,11 @@
   border-radius: 8px;
   color: white;
 }
+
+.claimForm {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 48px 0;
+}

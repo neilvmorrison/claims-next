@@ -1,6 +1,5 @@
 import { PrismaClient, User, Profile } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/config/prisma";
 
 export function getUserById(id: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { id } });

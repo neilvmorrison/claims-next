@@ -3,8 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/config/prisma";
 
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -51,12 +50,14 @@ const authOptions: AuthOptions = {
         // also add role here
         token.accessToken = account.access_token;
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       // also add role here
       session.user.id = token.id;
+      session.user.role = token.role;
       return session;
     },
   },

@@ -1,11 +1,25 @@
-import { Box, Text } from "@mantine/core";
+import { Box, Table, Text } from "@mantine/core";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
+import { prisma } from "@/config/prisma";
 
-function Claims() {
+function Claims({ claims }: { claims: any[] }) {
+  const userHasClaims = !!claims.length;
   return (
     <Box maw={1200} mx="auto" mt="xl">
-      <Text>My claims!</Text>
+      <Text fz="xl" fw="bold">
+        My claims
+      </Text>
+      <Table stickyHeader stickyHeaderOffset={60}>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Td>Class Action</Table.Td>
+            <Table.Td>Claim Status</Table.Td>
+            <Table.Td>Date Submitted</Table.Td>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody></Table.Tbody>
+      </Table>
     </Box>
   );
 }
@@ -20,8 +34,12 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   }
+  const claims = await prisma.auxlyClaimSubmission.findMany();
+
   return {
-    props: {},
+    props: {
+      claims,
+    },
   };
 }
 

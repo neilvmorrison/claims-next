@@ -54,10 +54,10 @@ function Auxly() {
           <Text fz="xl" fw="bolder">
             Auxly Cannabis Group Inc.
           </Text>
-          <Text c="gray.7">
+          <Text c="dimmed">
             Auxly Cannabis Group Inc. (TSXV: XLY, FRA: 3KF, OTC: CBWTF)
           </Text>
-          <Text c="gray.7">
+          <Text c="dimmed">
             Ontario Superior Court of Justice, Court File No:
             CV-19-00617136-0000CP
           </Text>
