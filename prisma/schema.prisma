@@ -13,6 +13,13 @@ enum UserRole {
   ADMINISTRATOR
 }
 
+enum ClamStatus {
+  PENDING
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -72,9 +79,22 @@ model Profile {
 }
 
 model AuxlyClaimSubmission {
-  id        String   @id @default(cuid())
-  profileId String
-  profile   Profile  @relation(fields: [profileId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String     @id @default(cuid())
+  profileId     String
+  profile       Profile    @relation(fields: [profileId], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  fullName      String
+  email         String
+  phoneNumber   String
+  streetAddress String?
+  addressLine2  String?
+  postalCode    String?
+  city          String?
+  country       String?
+  province      String?
+  purchaseDates DateTime[]
+  sellDates     DateTime[]
+  securityQty   Int
+  status        ClamStatus @default(PENDING)
 }

@@ -5,6 +5,7 @@ import { prisma } from "@/config/prisma";
 
 function Claims({ claims }: { claims: any[] }) {
   const userHasClaims = !!claims.length;
+  console.log({ userHasClaims, claims });
   return (
     <Box maw={1200} mx="auto" mt="xl">
       <Text fz="xl" fw="bold">
@@ -38,7 +39,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      claims,
+      claims: JSON.parse(JSON.stringify(claims)),
     },
   };
 }

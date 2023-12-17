@@ -22,6 +22,8 @@ import { FormEvent, useState } from "react";
 import { User } from "next-auth";
 import { email_regex } from "../../../utils/regex";
 import { DatePickerInput } from "@mantine/dates";
+import { getUserProfileByUserId } from "@/lib/user";
+import { Profile } from "@prisma/client";
 
 function FileUpload({ onDrop, ...props }: any) {
   return (
@@ -106,10 +108,10 @@ const validation = {
     value.length < 10 ? "Enter a valid phone number" : null,
 };
 
-function AuxlyClaimForm({ user }: { user: User }) {
+function AuxlyClaimForm({ user, profile }: { user: User; profile: Profile }) {
   const minSelectionDate = new Date(2018, 10, 12);
   const maxSelectionDate = new Date(2019, 1, 6);
-  const [file, setFile] = useState<null | File>(null);
+  // const [file, setFile] = useState<null | File>(null);
   const initValues = initialFormValues(user);
   const form = useForm({
     initialValues: initValues,
@@ -117,7 +119,16 @@ function AuxlyClaimForm({ user }: { user: User }) {
   });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    const payload = {
+      ...values,
+      profileId: profile.id,
+    };
+    const submission = await fetch("/api/claims", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    const result = await submission.json();
+    console.log(result);
   };
 
   return (
@@ -182,6 +193,11 @@ function AuxlyClaimForm({ user }: { user: User }) {
               {...form.getInputProps("addressLine2")}
             />
             <TextInput
+              label={"Postal / ZIP code"}
+              placeholder={"A1B2C3"}
+              {...form.getInputProps("postalCode")}
+            />
+            <TextInput
               label={"City"}
               placeholder={"Montreal"}
               {...form.getInputProps("city")}
@@ -237,9 +253,8 @@ function AuxlyClaimForm({ user }: { user: User }) {
               withAsterisk
             >
               <FileUpload
-                onDrop={(files: File[]) => setFile(files[0])}
+                // onDrop={(files: File[]) => setFile(files[0])}
                 label="Brokerage statements"
-                withAsterisk
               />
             </InputWrapper>
             <Button type="submit" variant="filled">
@@ -262,9 +277,12 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   }
+  const profile = await getUserProfileByUserId(session.user.id);
+  console.log(profile);
   return {
     props: {
       user: session.user,
+      profile,
     },
   };
 }
