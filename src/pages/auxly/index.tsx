@@ -144,7 +144,13 @@ function Auxly() {
           </ParagraphText>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Paper p="md" radius="md" withBorder shadow="md">
+          <Paper
+            p="md"
+            radius="md"
+            withBorder
+            shadow="md"
+            style={{ position: "sticky", top: 70 }}
+          >
             <Text fw="bolder">Documents</Text>
             {documentLinks.map((doc) => {
               return (
