@@ -4,3 +4,5 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   ) as RegExpMatchArray;
   return "(" + phoneGroups[1] + ") " + phoneGroups[2] + "-" + phoneGroups[3];
 };
+
+export const formatDate = (date: Date) => new Date(date).toDateString();

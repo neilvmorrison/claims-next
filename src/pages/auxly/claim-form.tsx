@@ -100,7 +100,7 @@ const initialFormValues = (user: User) => ({
   securityQty: 0,
 });
 
-const validation = {
+export const validation = {
   fullName: (value: string) =>
     !!value.length ? null : "This field is required",
   email: (value: string) => (email_regex.test(value) ? null : "Invalid email"),
@@ -108,7 +108,129 @@ const validation = {
     value.length < 10 ? "Enter a valid phone number" : null,
 };
 
-function AuxlyClaimForm({ user, profile }: { user: User; profile: Profile }) {
+export function AuxlyClaimForm({ onSubmit, initialValues, validation }: any) {
+  const minSelectionDate = new Date(2018, 10, 12);
+  const maxSelectionDate = new Date(2019, 1, 6);
+  const form = useForm({
+    initialValues,
+    validate: validation,
+  });
+  return (
+    <form
+      onSubmit={form.onSubmit((values) => onSubmit(values))}
+      className={classes.claimContainer}
+    >
+      <Paper p="md" radius="md" shadow="md" className={classes.claimForm}>
+        <TextInput
+          withAsterisk
+          label={"Full name"}
+          placeholder={"Frances McFarland"}
+          {...form.getInputProps("fullName")}
+        />
+        <TextInput
+          withAsterisk
+          label={"Email"}
+          placeholder={"my@email.com"}
+          {...form.getInputProps("email")}
+        />
+        <InputBase
+          withAsterisk
+          label={"Phone number"}
+          placeholder={"(647) 123 4567"}
+          mask="(000) 000-0000"
+          component={IMaskInput}
+          {...form.getInputProps("phoneNumber")}
+        />
+        <TextInput
+          label={"Street address"}
+          placeholder={"1 Avenue Street West"}
+          {...form.getInputProps("streetAddress")}
+        />
+        <TextInput
+          label={"Address line 2"}
+          placeholder={"Unit 2B"}
+          {...form.getInputProps("addressLine2")}
+        />
+        <TextInput
+          label={"Postal / ZIP code"}
+          placeholder={"A1B2C3"}
+          {...form.getInputProps("postalCode")}
+        />
+        <TextInput
+          label={"City"}
+          placeholder={"Montreal"}
+          {...form.getInputProps("city")}
+        />
+        <TextInput
+          label={"Country"}
+          placeholder={"Canada"}
+          {...form.getInputProps("country")}
+        />
+        <DatePickerInput
+          withAsterisk
+          type="multiple"
+          label="Purchase Dates"
+          description="Select all puchase dates"
+          valueFormat="DD MMM YYYY"
+          minDate={minSelectionDate}
+          maxDate={maxSelectionDate}
+          hideOutsideDates
+          {...form.getInputProps("purchaseDates")}
+          value={form.values.purchaseDates}
+        />
+        <DatePickerInput
+          withAsterisk
+          type="multiple"
+          label="Sell dates"
+          description="Select all sell dates"
+          valueFormat="DD MMM YYYY"
+          minDate={minSelectionDate}
+          maxDate={maxSelectionDate}
+          hideOutsideDates
+          {...form.getInputProps("sellDates")}
+          value={form.values.sellDates}
+        />
+        <NumberInput
+          withAsterisk
+          label="Securities ownership"
+          description="Number of securities owned after 6 Feb, 2019"
+          placeholder="Input placeholder"
+          {...form.getInputProps("securityQty")}
+        />
+        <FileInput
+          label="Government-issued identification"
+          description="You Must provide government-issued identification which matches
+                your brokerage account statements below"
+          withAsterisk
+          placeholder="Upload identification document"
+        />
+        <InputWrapper
+          label="Brokerage statements"
+          description="Please upload as many brokerage statements as possible to
+                support your claim. Please note that your February 2019
+                brokerage statement is required."
+          withAsterisk
+        >
+          <FileUpload
+            // onDrop={(files: File[]) => setFile(files[0])}
+            label="Brokerage statements"
+          />
+        </InputWrapper>
+        <Button type="submit" variant="filled">
+          Submit claim
+        </Button>
+      </Paper>
+    </form>
+  );
+}
+
+function AuxlyClaimFormPage({
+  user,
+  profile,
+}: {
+  user: User;
+  profile: Profile;
+}) {
   const minSelectionDate = new Date(2018, 10, 12);
   const maxSelectionDate = new Date(2019, 1, 6);
   // const [file, setFile] = useState<null | File>(null);
@@ -127,8 +249,7 @@ function AuxlyClaimForm({ user, profile }: { user: User; profile: Profile }) {
       method: "POST",
       body: JSON.stringify(payload),
     });
-    const result = await submission.json();
-    console.log(result);
+    return submission.json();
   };
 
   return (
@@ -278,7 +399,6 @@ export async function getServerSideProps(context: NextPageContext) {
     };
   }
   const profile = await getUserProfileByUserId(session.user.id);
-  console.log(profile);
   return {
     props: {
       user: session.user,
@@ -287,4 +407,4 @@ export async function getServerSideProps(context: NextPageContext) {
   };
 }
 
-export default AuxlyClaimForm;
+export default AuxlyClaimFormPage;

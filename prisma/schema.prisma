@@ -13,7 +13,7 @@ enum UserRole {
   ADMINISTRATOR
 }
 
-enum ClamStatus {
+enum ClaimStatus {
   PENDING
   UNDER_REVIEW
   ACCEPTED
@@ -79,11 +79,11 @@ model Profile {
 }
 
 model AuxlyClaimSubmission {
-  id            String     @id @default(cuid())
+  id            String      @id @default(cuid())
   profileId     String
-  profile       Profile    @relation(fields: [profileId], references: [id])
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  profile       Profile     @relation(fields: [profileId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   fullName      String
   email         String
   phoneNumber   String
@@ -96,5 +96,5 @@ model AuxlyClaimSubmission {
   purchaseDates DateTime[]
   sellDates     DateTime[]
   securityQty   Int
-  status        ClamStatus @default(PENDING)
+  status        ClaimStatus @default(PENDING)
 }

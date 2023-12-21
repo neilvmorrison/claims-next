@@ -12,6 +12,7 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { ModalsProvider } from "@mantine/modals";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/dropzone/styles.css";
@@ -74,9 +75,11 @@ export default function App({
     <SessionProvider session={session}>
       <MantineProvider theme={theme}>
         <Notifications />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ModalsProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ModalsProvider>
       </MantineProvider>
     </SessionProvider>
   );
