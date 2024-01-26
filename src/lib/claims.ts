@@ -16,3 +16,10 @@ export async function getClaimsByProfileId(
 ): Promise<AuxlyClaimSubmission[]> {
   return prisma.auxlyClaimSubmission.findMany({ where: { profileId } });
 }
+
+export async function updateClaim(
+  claimId: string,
+  payload: Partial<AuxlyClaimSubmission>
+) {
+  return;
+}

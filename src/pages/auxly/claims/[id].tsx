@@ -128,7 +128,11 @@ function ClaimDetail({
   const initValues = initialFormValues(claim);
   const handleEdit = () => {
     modals.open({
-      title: "Edit claim",
+      title: (
+        <Text c="blue" fw="bolder" fz="xl">
+          Edit Claim
+        </Text>
+      ),
       size: "lg",
       children: (
         <AuxlyClaimForm
@@ -140,6 +144,7 @@ function ClaimDetail({
       ),
     });
   };
+
   const formattedPurchaseDates = claim.purchaseDates.map((date: Date) =>
     new Date(date).toDateString()
   );
