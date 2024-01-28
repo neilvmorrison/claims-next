@@ -20,6 +20,12 @@ enum ClaimStatus {
   REJECTED
 }
 
+enum FormInputFieldTypes {
+  TEXT
+  DATE
+  FILE
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -76,6 +82,7 @@ model Profile {
   user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   auxlyClaims AuxlyClaimSubmission[]
+  claims      ClaimSubmission[]
 }
 
 model AuxlyClaimSubmission {
@@ -97,4 +104,61 @@ model AuxlyClaimSubmission {
   sellDates     DateTime[]
   securityQty   Int
   status        ClaimStatus @default(PENDING)
+}
+
+model Organization {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  classActions ClassAction[]
+}
+
+model ClassAction {
+  id               String            @id @default(cuid())
+  name             String
+  description      String?           @db.Text
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  organization     Organization      @relation(fields: [organizationId], references: [id])
+  formFields       FormInputField[]
+  organizationId   String
+  claimSubmissions ClaimSubmission[]
+}
+
+model FormInputField {
+  id                        String                     @id @default(cuid())
+  name                      String
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  classAction               ClassAction                @relation(fields: [classActionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  classActionId             String
+  formInputFieldSubmissions FormInputFieldSubmission[]
+  label                     String
+  description               String?
+  type                      FormInputFieldTypes        @default(TEXT)
+  errorMessage              String?
+}
+
+model ClaimSubmission {
+  id                        String                     @id @default(cuid())
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  classAction               ClassAction                @relation(fields: [classActionId], references: [id])
+  classActionId             String
+  formInputFieldSubmissions FormInputFieldSubmission[]
+  profile                   Profile?                   @relation(fields: [profileId], references: [id])
+  profileId                 String?
+}
+
+model FormInputFieldSubmission {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  formInputField    FormInputField  @relation(fields: [formInputFieldId], references: [id])
+  formInputFieldId  String
+  claimSubmission   ClaimSubmission @relation(fields: [claimSubmissionId], references: [id])
+  claimSubmissionId String
+  responseValue     String          @db.VarChar(255)
 }
