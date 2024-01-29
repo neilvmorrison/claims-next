@@ -139,6 +139,7 @@ model FormInputField {
   description               String?
   type                      FormInputFieldTypes        @default(TEXT)
   errorMessage              String?
+  fieldOptions              String[]
 }
 
 model ClaimSubmission {
