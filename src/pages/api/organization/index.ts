@@ -1,4 +1,3 @@
-import { prisma } from "@/config/prisma";
 import { createOrganization } from "@/lib/organization";
 import { NextApiRequest, NextApiResponse } from "next";
 

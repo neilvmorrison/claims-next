@@ -1,17 +1,9 @@
 import { prisma } from "@/config/prisma";
-import {
-  AuxlyClaimSubmission,
-  ClaimSubmission,
-  FormInputFieldSubmission,
-} from "@prisma/client";
+import { ClaimSubmission, FormFieldSubmission } from "@prisma/client";
 
 export type CreateClaimSubmissionPayload = ClaimSubmission & {
-  formInputFieldSubmissions: FormInputFieldSubmission[];
+  formInputFieldSubmissions: FormFieldSubmission[];
 };
-
-export async function createAuxlyClaimSubmission(payload: any) {
-  return prisma.auxlyClaimSubmission.create({ data: payload });
-}
 
 export async function createClaimSubmission(
   payload: CreateClaimSubmissionPayload
@@ -39,7 +31,7 @@ export async function getClaimsByProfileId(
 
 export async function updateClaim(
   claimId: string,
-  payload: Partial<AuxlyClaimSubmission>
+  payload: Partial<ClaimSubmission>
 ) {
   return;
 }

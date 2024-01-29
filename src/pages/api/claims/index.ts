@@ -1,7 +1,4 @@
-import {
-  createAuxlyClaimSubmission,
-  createClaimSubmission,
-} from "@/lib/claims";
+import { createClaimSubmission } from "@/lib/claims";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
